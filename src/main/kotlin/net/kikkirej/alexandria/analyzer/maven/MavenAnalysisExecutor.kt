@@ -29,7 +29,7 @@ class MavenAnalysisExecutor(@Autowired val generalProperties: GeneralProperties,
     }
 
     private fun modulePathOf(externalTask: ExternalTask): File {
-        val mavenModulePath = externalTask.getVariable<String>("maven_module_path");
+        val mavenModulePath = externalTask.getVariable<String>("maven_module_path")
         val businessKey = externalTask.businessKey
         val modulePath =
             File(File(generalProperties.sharedfolder).absolutePath + File.separator + businessKey + mavenModulePath)

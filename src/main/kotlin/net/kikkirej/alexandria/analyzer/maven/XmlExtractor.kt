@@ -43,7 +43,7 @@ class XmlExtractor(@Autowired val analysisRepository: AnalysisRepository,
             snapshotRepository = snapshotRepository,
         )
         mavenModuleRepository.save(result)
-        return result;
+        return result
     }
 
     private fun getDocumentForPomIn(modulePath: File): Document {
@@ -59,7 +59,7 @@ class XmlExtractor(@Autowired val analysisRepository: AnalysisRepository,
         url: String?
     ): MavenDistributionManagement? {
         if(id.isNullOrBlank() && name.isNullOrBlank() && url.isNullOrBlank()){
-            return null;
+            return null
         }
         val dbResult = mavenDistributionManagementRepository.findByRepoIdAndNameAndUrl(id, name, url)
         if(dbResult.isPresent){

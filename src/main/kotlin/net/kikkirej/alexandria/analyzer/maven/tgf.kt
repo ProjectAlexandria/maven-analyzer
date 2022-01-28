@@ -6,9 +6,9 @@ import java.nio.file.Path
 
 fun tgfParent(tgfFile: Path) : TGFMavenNode {
     val allLines = Files.readAllLines(tgfFile)
-    val iterator = allLines.iterator();
+    val iterator = allLines.iterator()
     val nodeMap = mutableMapOf<String, TGFMavenNode>()
-    var parentNode = fileNodeMap(iterator, nodeMap)
+    val parentNode = fileNodeMap(iterator, nodeMap)
     addChildrenToMap(nodeMap, iterator)
     return parentNode
 }
@@ -29,7 +29,7 @@ private fun fileNodeMap(
     while (iterator.hasNext()) {
         val line = iterator.next()
         if (line.equals("#")) {
-            break;
+            break
         }
         val splittedLine = line.split(" ")
         val key = splittedLine[0]
