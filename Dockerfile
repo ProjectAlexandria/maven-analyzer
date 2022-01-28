@@ -7,7 +7,7 @@ COPY src src
 
 RUN chmod +x ./mvnw && ./mvnw clean install
 
-FROM openjdk:11
+FROM maven:3.8-openjdk-11
 
 ENV JAVA_OPTS='-Xmx128m' \
     HEALTHCHECK_URL=http://localhost:8080/actuator/health
