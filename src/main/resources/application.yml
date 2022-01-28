@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: "alexandria-maven-analyzer"
+
+  cloud:
+    config:
+      enabled: "false"
+
+camunda.bpm.client:
+  max-tasks: 1
+  lock-duration: 600000
+
+---
+spring:
+  cloud:
+    config:
+      enabled: "true"
+      fail-fast: "true"
+      retry:
+        maxAttempts: "10"
+        multiplier: "1.5"
+        initial-interval: "5000"
+        max-interval: "600000"
+  config:
+    activate:
+      on-profile: config-server
+    import: "configserver:"
