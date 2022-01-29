@@ -19,7 +19,10 @@ class TGFMavenNode(val groupId: String,
                    val version: String,
                    val scope: String?,
                    var children: MutableSet<TGFMavenNode> = mutableSetOf()
-)
+){
+    override fun toString(): String =
+        "TGFMavenNode(groupId='$groupId', artifactId='$artifactId', packaging='$packaging', version='$version', scope=$scope)"
+}
 
 private fun fileNodeMap(
     iterator: MutableIterator<String>,

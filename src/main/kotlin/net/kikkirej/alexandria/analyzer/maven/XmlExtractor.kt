@@ -86,9 +86,9 @@ private fun Document.findByXPathNonNull(xpath: String, defaultValue: String?): S
 private fun Document.findByXPath(xpath: String, defaultValue: String?): String? {
     val node = selectSingleNode(xpath) ?: return defaultValue
     val stringValue = node.stringValue
-    if(stringValue.isNullOrBlank()){
-        return defaultValue
+    return if(stringValue.isNullOrBlank()){
+        defaultValue
     }else{
-        return stringValue
+        stringValue
     }
 }

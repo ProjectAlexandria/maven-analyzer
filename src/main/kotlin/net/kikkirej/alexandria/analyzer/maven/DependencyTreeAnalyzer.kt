@@ -1,6 +1,7 @@
 package net.kikkirej.alexandria.analyzer.maven
 
 import net.kikkirej.alexandria.analyzer.maven.db.*
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import java.io.File
@@ -10,9 +11,13 @@ import kotlin.io.path.Path
 class DependencyTreeAnalyzer (@Autowired val mavenDependencyRepository: MavenDependencyRepository,
                               @Autowired val mavenModuleDependencyRepository: MavenModuleDependencyRepository,
 ) {
+    val log = LoggerFactory.getLogger(javaClass)
+
     fun analyze(modulePath: File, module: MavenModule) {
         runDependencyTreeCommandIn(modulePath, module.artifactId)
-        val tgfParent = tgfParent(Path("${modulePath.absolutePath + File.separator}dependencies.tgf"))
+        val tgfPath = Path("${modulePath.absolutePath + File.separator}dependencies.tgf")
+        log.info("Path for generated tgf-File: ${tgfPath}")
+        val tgfParent = tgfParent(tgfPath)
         handleNode(tgfParent, null ,0, module)
 
     }
@@ -66,6 +71,8 @@ class DependencyTreeAnalyzer (@Autowired val mavenDependencyRepository: MavenDep
             "-DoutputType=tgf",
         ).directory(modulePath).
         start()
+        log.info("Started Process ${process.info()} in ${modulePath.absoluteFile}.")
         process.waitFor()
+        log.info("Finished Process in ${modulePath.absoluteFile}.")
     }
 }
