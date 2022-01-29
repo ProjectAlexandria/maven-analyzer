@@ -3,6 +3,8 @@ package net.kikkirej.alexandria.analyzer.maven
 import net.kikkirej.alexandria.analyzer.maven.db.*
 import org.dom4j.Document
 import org.dom4j.io.SAXReader
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import java.io.File
@@ -13,6 +15,8 @@ class XmlExtractor(@Autowired val analysisRepository: AnalysisRepository,
                    @Autowired val mavenDistributionManagementRepository: MavenDistributionManagementRepository,
                    @Autowired val mavenModuleRepository: MavenModuleRepository,
 ) {
+    val log: Logger = LoggerFactory.getLogger(javaClass)
+
     fun getModuleFromXML(modulePath: File, businessKey: String?) : MavenModule{
         val pom: Document = getDocumentForPomIn(modulePath)
         val analysis = analysisRepository.findById(businessKey!!.toLong()).get()
@@ -48,9 +52,9 @@ class XmlExtractor(@Autowired val analysisRepository: AnalysisRepository,
 
     private fun getDocumentForPomIn(modulePath: File): Document {
         val pomFilePathString = modulePath.absolutePath + File.separator + "pom.xml"
+        log.info("pom.xml path is: $pomFilePathString")
         val pomFileUrl = Path.of(pomFilePathString).toUri().toURL()
-        val document = SAXReader().read(pomFileUrl)
-        return document
+        return SAXReader().read(pomFileUrl)
     }
 
     private fun getRepository(
