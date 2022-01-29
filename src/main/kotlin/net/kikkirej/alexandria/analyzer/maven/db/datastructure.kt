@@ -18,7 +18,11 @@ class MavenModule(
     @ManyToOne var analysis: Analysis,
     @ManyToOne var repository: MavenDistributionManagement?,
     @ManyToOne var snapshotRepository: MavenDistributionManagement?,
-)
+){
+    override fun toString(): String {
+        return "MavenModule(id=$id, artifactId='$artifactId', groupId='$groupId', version='$version', packaging=$packaging, parentArtifactId=$parentArtifactId, parentGroupId=$parentGroupId, parentVersion=$parentVersion, analysis=$analysis, repository=$repository, snapshotRepository=$snapshotRepository)"
+    }
+}
 @Entity(name = "maven_distribution_management")
 class MavenDistributionManagement(@Id @GeneratedValue var id: Long = 0,
                                   var repoId: String?,
