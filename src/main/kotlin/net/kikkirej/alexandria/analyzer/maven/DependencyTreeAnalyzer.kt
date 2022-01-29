@@ -54,6 +54,7 @@ class DependencyTreeAnalyzer (@Autowired val mavenDependencyRepository: MavenDep
         if(dbResult.isPresent){
             return dbResult.get()
         }else{
+            log.info("Creating maven_dependency for $groupId:$artifactId")
             val mavenDependency = MavenDependency(groupId = groupId, artifactId = artifactId)
             mavenDependencyRepository.save(mavenDependency)
             return mavenDependency
@@ -69,8 +70,7 @@ class DependencyTreeAnalyzer (@Autowired val mavenDependencyRepository: MavenDep
             "-DoutputEncoding=utf-8",
             "-DoutputFile=${modulePath.absolutePath + File.separator}dependencies.tgf",
             "-DoutputType=tgf",
-        ).directory(modulePath).
-        start()
+        ).directory(modulePath).redirectErrorStream(true).redirectOutput(File("/mvn.log")).start()
         log.info("Started Process ${process.info()} in ${modulePath.absoluteFile}.")
         process.waitFor()
         log.info("Finished Process in ${modulePath.absoluteFile}.")
