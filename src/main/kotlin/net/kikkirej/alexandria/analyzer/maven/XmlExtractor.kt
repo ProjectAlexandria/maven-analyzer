@@ -2,6 +2,7 @@ package net.kikkirej.alexandria.analyzer.maven
 
 import net.kikkirej.alexandria.analyzer.maven.db.*
 import org.dom4j.Document
+import org.dom4j.DocumentFactory
 import org.dom4j.io.SAXReader
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -54,6 +55,8 @@ class XmlExtractor(@Autowired val analysisRepository: AnalysisRepository,
         val pomFilePathString = modulePath.absolutePath + File.separator + "pom.xml"
         log.info("pom.xml path is: $pomFilePathString")
         val pomFileUrl = Path.of(pomFilePathString).toUri().toURL()
+        val map = mapOf("p" to "http://maven.apache.org/POM/4.0.0")
+        DocumentFactory.getInstance().xPathNamespaceURIs=map
         return SAXReader().read(pomFileUrl)
     }
 
